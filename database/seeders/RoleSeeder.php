@@ -22,9 +22,9 @@ class RoleSeeder extends Seeder
             Role::firstOrCreate([
                 'slug' => $slug,
             ],
-            [
-                'name' => $name,
-            ]);
+                [
+                    'name' => $name,
+                ]);
         }
     }
 }

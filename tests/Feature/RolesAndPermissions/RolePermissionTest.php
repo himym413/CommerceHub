@@ -8,7 +8,7 @@ use Illuminate\Database\QueryException;
 test('retrieves the permissions assigned to a role', function () {
     $role = Role::factory()->create();
     $permissions = Permission::factory()->count(2)->create();
-    
+
     $role->permissions()->attach($permissions);
     $assignedPermissions = $role->permissions;
 

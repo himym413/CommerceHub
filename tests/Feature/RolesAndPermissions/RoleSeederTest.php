@@ -7,7 +7,7 @@ test('seeding roles repeatedly avoids duplicates and preserves edited names', fu
     $this->seed(RoleSeeder::class);
 
     $adminRole = Role::where('slug', 'admin')->firstOrFail();
-    
+
     $adminRole->update(['name' => 'Store Administrator']);
 
     $this->seed(RoleSeeder::class);

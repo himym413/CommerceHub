@@ -18,7 +18,10 @@ class PermissionFactory extends Factory
      */
     public function definition(): array
     {
-        $permissionLabel = ucfirst(fake()->unique()->words(2, true));
+        /** @var string $permissionLabel */
+        $permissionLabel = fake()->unique()->words(2, true);
+
+        $permissionLabel = ucfirst($permissionLabel);
         $permissionName = Str::slug($permissionLabel);
 
         return [

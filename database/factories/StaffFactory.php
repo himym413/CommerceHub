@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class StaffFactory extends Factory
 {
     protected static ?string $password;
-    
+
     /**
      * Define the model's default state.
      *

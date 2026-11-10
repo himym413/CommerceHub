@@ -27,9 +27,9 @@ class PermissionSeeder extends Seeder
             Permission::firstOrCreate([
                 'name' => $name,
             ],
-            [
-                'label' => $label,
-            ]);
+                [
+                    'label' => $label,
+                ]);
         }
     }
 }
