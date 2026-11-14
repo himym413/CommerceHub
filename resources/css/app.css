@@ -8,8 +8,8 @@
     --breakpoint-xs: 30rem;
 
     /* Fonts */
-    --font-storefront-body: "Inter", system-ui, sans-serif;
-    --font-storefront-heading: "DM Sans", system-ui, sans-serif;
+    --font-storefront-body: 'Inter', system-ui, sans-serif;
+    --font-storefront-heading: 'DM Sans', system-ui, sans-serif;
 
     /* Colors */
     --color-storefront-canvas: #faf8f2;
