@@ -89,7 +89,7 @@ export default function StorefrontHeader() {
                                 aria-hidden="true"
                             />
                             <span>Cart</span>
-                            <span className="rounded-full bg-storefront-brand px-2 pb-[0.125rem] text-sm text-storefront-canvas">
+                            <span className="rounded-full bg-storefront-brand px-2 pb-0.5 text-sm text-storefront-canvas">
                                 0
                             </span>
                         </a>
