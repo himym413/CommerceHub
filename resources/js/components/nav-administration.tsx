@@ -5,6 +5,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { Link } from '@inertiajs/react';
 
 export function NavAdministration({
     projects,
@@ -23,7 +24,7 @@ export function NavAdministration({
                     <SidebarMenuItem key={item.name}>
                         <SidebarMenuButton
                             render={
-                                <a href={item.url} aria-label={item.name} />
+                                <Link href={item.url} aria-label={item.name} />
                             }
                             tooltip={item.name}
                         >
