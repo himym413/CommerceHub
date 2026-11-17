@@ -12,13 +12,17 @@ import { ReactNode } from 'react';
 type AdminLayoutProps = {
     title: string;
     subtitle?: string;
+    actions?: ReactNode;
+    mainSectionWidth?: string;
     children: ReactNode;
 };
 
 export default function AdminLayout({
     title,
-    children,
     subtitle,
+    actions,
+    mainSectionWidth = 'w-full',
+    children,
 }: AdminLayoutProps) {
     const data = {
         user: {
@@ -47,16 +51,22 @@ export default function AdminLayout({
 
                 <SidebarSeparator className="mx-0 mt-1 w-full bg-storefront-border" />
 
-                <main className="flex h-screen flex-1 flex-col gap-4 bg-storefront-sage/70 px-4 pt-2 pb-6 sm:px-6">
-                    <section>
-                        <h1 className="font-storefront-heading text-3xl font-bold">
-                            {title}
-                        </h1>
-                        {subtitle && (
-                            <p className="mt-1 text-sm text-muted-foreground">
-                                {subtitle}
-                            </p>
-                        )}
+                <main className="/70 flex h-screen flex-1 flex-col gap-4 bg-storefront-sage px-4 pt-2 pb-6 sm:px-6">
+                    <section
+                        className={`flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between ${mainSectionWidth}`}
+                    >
+                        <div>
+                            <h1 className="font-storefront-heading text-3xl font-bold">
+                                {title}
+                            </h1>
+                            {subtitle && (
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    {subtitle}
+                                </p>
+                            )}
+                        </div>
+
+                        {actions}
                     </section>
                     {children}
                 </main>

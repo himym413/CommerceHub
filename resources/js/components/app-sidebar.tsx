@@ -17,7 +17,6 @@ const data = {
             title: 'Dashboard',
             url: '/admin/dashboard',
             icon: <House />,
-            isActive: true,
         },
         {
             title: 'Categories',
