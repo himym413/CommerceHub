@@ -38,9 +38,14 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
-            'auth' => [
-                'user' => $request->user(),
-            ],
+            'auth' => function () use ($request): array {
+                $account = $request->user('staff') ?? $request->user('web');
+
+                return [
+                    'user' => $account?->only('id', 'first_name', 'last_name', 'email'),
+                    'isAuthenticated' => $account !== null,
+                ];
+            },
         ];
     }
 }

@@ -1,8 +1,14 @@
+import { Link, usePage } from '@inertiajs/react';
 import { Menu, ShoppingCart, X } from 'lucide-react';
 import { useState } from 'react';
 
+type Auth = {
+    isAuthenticated: boolean;
+};
+
 export default function StorefrontHeader() {
     const [isOpenMenu, setIsOpenMenu] = useState(false);
+    const { auth } = usePage<{ auth: Auth }>().props;
 
     return (
         <nav className="relative mb-3 border-b border-storefront-border bg-storefront-surface font-storefront-body font-semibold">
@@ -64,19 +70,26 @@ export default function StorefrontHeader() {
                             Products
                         </a>
                     </li>
-                    <li>
-                        <a href="/login" onClick={() => setIsOpenMenu(false)}>
-                            Log in
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/register"
-                            onClick={() => setIsOpenMenu(false)}
-                        >
-                            Register
-                        </a>
-                    </li>
+                    {!auth.isAuthenticated && (
+                        <li>
+                            <a
+                                href="/login"
+                                onClick={() => setIsOpenMenu(false)}
+                            >
+                                Log in
+                            </a>
+                        </li>
+                    )}
+                    {!auth.isAuthenticated && (
+                        <li>
+                            <a
+                                href="/register"
+                                onClick={() => setIsOpenMenu(false)}
+                            >
+                                Register
+                            </a>
+                        </li>
+                    )}
                     <li>
                         <a
                             href="/cart"
@@ -94,6 +107,19 @@ export default function StorefrontHeader() {
                             </span>
                         </a>
                     </li>
+                    {auth.isAuthenticated && (
+                        <li>
+                            <Link
+                                href="/logout"
+                                method="post"
+                                as="button"
+                                onClick={() => setIsOpenMenu(false)}
+                                className="cursor-pointer"
+                            >
+                                Logout
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </div>
         </nav>
