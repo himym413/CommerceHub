@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
@@ -73,8 +74,11 @@ export function NavUser({
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer">
-                            <LogOutIcon />
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => router.post('/logout')}
+                        >
+                            <LogOutIcon aria-hidden="true" />
                             Log out
                         </DropdownMenuItem>
                     </DropdownMenuContent>
