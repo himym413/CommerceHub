@@ -1,3 +1,6 @@
+import { CreateCategoryDialog } from '@/components/admin/categories/create-category-dialog';
+import { DeleteCategoryDialog } from '@/components/admin/categories/delete-category-dialog';
+import { EditCategoryDialog } from '@/components/admin/categories/edit-category-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -16,55 +19,33 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import AdminLayout from '@/layouts/admin-layout';
-import { MoreHorizontalIcon, Pencil, Plus, Trash } from 'lucide-react';
+import { MoreHorizontalIcon, Pencil, Trash } from 'lucide-react';
+import { useState } from 'react';
 
 type Category = {
+    id: number;
     name: string;
-    numProducts: number;
+    products_count: number;
 };
 
-const categories: Category[] = [
-    {
-        name: 'Beverages',
-        numProducts: 8,
-    },
-    {
-        name: 'Bread and Bakery',
-        numProducts: 5,
-    },
-    {
-        name: 'Canned and Jarred Food',
-        numProducts: 12,
-    },
-    {
-        name: 'Dairy and Eggs',
-        numProducts: 6,
-    },
-    {
-        name: 'Frozen Food',
-        numProducts: 0,
-    },
-    {
-        name: 'Fruit and Vegetables',
-        numProducts: 9,
-    },
-];
+type SelectedCategory = {
+    category: Category;
+    action: 'edit' | 'delete';
+};
 
-export default function Categories() {
+type CategoriesProps = {
+    categories: Category[];
+};
+
+export default function Categories({ categories }: CategoriesProps) {
+    const [selectedCategory, setSelectedCategory] =
+        useState<SelectedCategory | null>(null);
+
     return (
         <AdminLayout
             title="Categories"
             subtitle="Manage the categories in your catalog."
-            actions={
-                <Button
-                    variant={'default'}
-                    type="button"
-                    className="bg-storefront-brand hover:cursor-pointer hover:bg-storefront-brand hover:opacity-90"
-                >
-                    <Plus className="size-4" aria-hidden="true" />
-                    Add category
-                </Button>
-            }
+            actions={<CreateCategoryDialog />}
             mainSectionWidth="w-4/5"
         >
             <Card className="m-0 w-full p-0 sm:max-w-4/5">
@@ -84,10 +65,22 @@ export default function Categories() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {categories.map(({ name, numProducts }) => (
-                                <TableRow key={name}>
-                                    <TableCell>{name}</TableCell>
-                                    <TableCell>{numProducts}</TableCell>
+                            {categories.length === 0 && (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={3}
+                                        className="py-10 text-center text-muted-foreground"
+                                    >
+                                        No categories yet.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                            {categories.map((category) => (
+                                <TableRow key={category.id}>
+                                    <TableCell>{category.name}</TableCell>
+                                    <TableCell>
+                                        {category.products_count}
+                                    </TableCell>
                                     <TableCell className="text-right">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger
@@ -95,7 +88,7 @@ export default function Categories() {
                                                     <Button
                                                         variant="outline"
                                                         size="icon"
-                                                        aria-label={`Actions for ${name}`}
+                                                        aria-label={`Actions for ${category.name}`}
                                                     >
                                                         <MoreHorizontalIcon aria-hidden="true" />
                                                     </Button>
@@ -108,16 +101,32 @@ export default function Categories() {
                                                 <DropdownMenuGroup>
                                                     <DropdownMenuItem
                                                         variant="default"
-                                                        className="hover:cursor-pointer"
+                                                        className="cursor-pointer"
+                                                        onClick={() =>
+                                                            setSelectedCategory(
+                                                                {
+                                                                    category,
+                                                                    action: 'edit',
+                                                                },
+                                                            )
+                                                        }
                                                     >
-                                                        <Pencil />
+                                                        <Pencil aria-hidden="true" />
                                                         Edit
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         variant="destructive"
-                                                        className="hover:cursor-pointer"
+                                                        className="cursor-pointer"
+                                                        onClick={() =>
+                                                            setSelectedCategory(
+                                                                {
+                                                                    category,
+                                                                    action: 'delete',
+                                                                },
+                                                            )
+                                                        }
                                                     >
-                                                        <Trash />
+                                                        <Trash aria-hidden="true" />
                                                         Delete
                                                     </DropdownMenuItem>
                                                 </DropdownMenuGroup>
@@ -130,6 +139,22 @@ export default function Categories() {
                     </Table>
                 </CardContent>
             </Card>
+
+            {selectedCategory && selectedCategory.action === 'edit' && (
+                <EditCategoryDialog
+                    key={selectedCategory.category.id}
+                    category={selectedCategory.category}
+                    onClose={() => setSelectedCategory(null)}
+                />
+            )}
+
+            {selectedCategory && selectedCategory.action === 'delete' && (
+                <DeleteCategoryDialog
+                    key={selectedCategory.category.id}
+                    category={selectedCategory.category}
+                    onClose={() => setSelectedCategory(null)}
+                />
+            )}
         </AdminLayout>
     );
 }
