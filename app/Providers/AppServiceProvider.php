@@ -50,6 +50,14 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('access-admin', function (User|Staff $account): bool {
             return $account instanceof Staff && $account->is_active;
         });
+
+        Gate::define('manage-categories', function (User|Staff $account): bool {
+            return $account instanceof Staff
+                && $account->is_active
+                && $account->role()
+                    ->whereRelation('permissions', 'permissions.name', 'manage-categories')
+                    ->exists();
+        });
     }
 
     /**
